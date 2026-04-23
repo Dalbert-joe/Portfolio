@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --green: #163d36;
+    --orange: #f85001;
+    --teal: #1ab8c8;
+    --flame: #ffd700;
+    --ember: #ff6b00;
+  }
+
+  html, body {
+    overflow: hidden;
+    background: #163d36;
+    cursor: none;
+  }
+
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer utilities {
+  .text-stroke-orange {
+    -webkit-text-stroke: 2px #f85001;
+    color: transparent;
+  }
+  .text-stroke-teal {
+    -webkit-text-stroke: 2px #1ab8c8;
+    color: transparent;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .clip-flame {
+    clip-path: polygon(50% 0%, 80% 30%, 100% 60%, 80% 80%, 60% 100%, 40% 100%, 20% 80%, 0% 60%, 20% 30%);
+  }
+}
+
+/* Custom cursor */
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: #f85001;
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s;
+}
+.cursor-ring {
+  width: 30px;
+  height: 30px;
+  border: 2px solid rgba(248, 80, 1, 0.6);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.08s ease, width 0.2s, height 0.2s;
+}
+
+/* Flame particle */
+@keyframes particleRise {
+  0% { transform: translateY(0) translateX(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-120px) translateX(var(--drift)) scale(0); opacity: 0; }
+}
+
+.flame-particle {
+  position: absolute;
+  border-radius: 50% 50% 20% 20%;
+  animation: particleRise 1.5s ease-out forwards;
+  pointer-events: none;
+}
+
+/* Radial wheel */
+.proj-bubble {
+  position: absolute;
+  transform-origin: center;
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.proj-bubble.active {
+  transform: scale(1.15);
+}
+
+/* Skills fire ring */
+@keyframes fireRing {
+  0%,100% { box-shadow: 0 0 10px #f85001, 0 0 20px #ff6b00, 0 0 5px #ffd700 inset; }
+  50% { box-shadow: 0 0 20px #f85001, 0 0 40px #ff6b00, 0 0 10px #ffd700 inset; }
+}
+
+.fire-ring {
+  animation: fireRing 2s ease-in-out infinite;
+}
+
+/* Page transitions */
+.page-enter {
+  opacity: 0;
+  transform: scale(0.97);
+}
+.page-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: all 0.4s ease;
+}
+.page-exit {
+  opacity: 1;
+}
+.page-exit-active {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Noise texture overlay */
+.noise-overlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
